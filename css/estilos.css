@@ -91,16 +91,33 @@ header {
   border-bottom: 1px solid var(--linea);
 }
 
+/* Círculo de tamaño fijo con overflow oculto: si el logo todavía no
+   existe (placeholder), el texto alternativo queda contenido en vez
+   de desbordarse con el subrayado azul de los links. */
 header #logo {
   display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 3.25rem;
+  height: 3.25rem;
   margin-bottom: 1.25rem;
+  padding: 0.3rem;
+  border-radius: 50%;
+  overflow: hidden;
+  background: var(--bg-panel);
+  box-shadow: 0 0 0 1px var(--linea), 0 0 24px 2px rgba(240, 185, 78, 0.25);
+  text-decoration: none;
+  color: var(--texto-muted);
+  font-size: 0.6rem;
+  line-height: 1.1;
+  text-align: center;
 }
 
 header #logo img {
-  height: 3.25rem;
-  width: auto;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
   border-radius: 50%;
-  box-shadow: 0 0 0 1px var(--linea), 0 0 24px 2px rgba(240, 185, 78, 0.25);
 }
 
 header h1 {
@@ -170,19 +187,33 @@ section h2 {
 
 #historia > h2 { margin-bottom: 2rem; }
 
+/* El HTML trae h3, p e img en ese orden (no la imagen primero), así
+   que se ubica cada elemento por nombre de área en vez de dejar que
+   el grid los acomode por orden de aparición — si no, el título
+   termina en la columna angosta pensada para la imagen. */
 #historia article {
   display: grid;
   grid-template-columns: 9rem 1fr;
-  gap: 1.5rem;
+  grid-template-areas:
+    "imagen titulo"
+    "imagen texto";
+  column-gap: 1.5rem;
   align-items: start;
 }
 
+#historia article h3 { grid-area: titulo; }
+#historia article p  { grid-area: texto; }
+#historia article img { grid-area: imagen; }
+
 #historia article + article { margin-top: 2.25rem; }
 
-/* El tercer artículo (Costumbres) no tiene imagen: ocupa el ancho
-   completo en lugar de dejar una columna vacía. */
+/* El tercer artículo (Costumbres) no tiene imagen: una sola columna
+   de ancho completo, con el título arriba del texto. */
 #historia article:not(:has(img)) {
   grid-template-columns: 1fr;
+  grid-template-areas:
+    "titulo"
+    "texto";
 }
 
 #historia article img {
@@ -251,6 +282,10 @@ footer small {
 @media (max-width: 40rem) {
   #historia article {
     grid-template-columns: 1fr;
+    grid-template-areas:
+      "titulo"
+      "imagen"
+      "texto";
   }
 
   #historia article img {
