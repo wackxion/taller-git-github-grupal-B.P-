@@ -1,0 +1,269 @@
+/* ====================================================================
+   Lúmina — Guía Oficial de Turismo
+   "La ciudad del faro y las luces azules"
+
+   Paleta y tipografía pensadas para una ciudad costera nocturna:
+   cielo/mar azul profundo, el resplandor cálido del faro como único
+   acento cálido, y un haz celeste ("las luces azules") como acento
+   principal de interacción.
+   ==================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,500&family=Work+Sans:wght@400;500;600&display=swap');
+
+:root {
+  /* Color */
+  --bg-noche:      #0c1a2b;   /* mar y cielo nocturno */
+  --bg-panel:      #12263d;   /* paneles ligeramente más claros */
+  --bg-panel-alt:  #0f2133;
+  --linea:         #24405e;   /* divisores sutiles */
+  --texto:         #e8eef5;
+  --texto-muted:   #93a9c0;
+  --haz-azul:      #5fd4ef;   /* "las luces azules" — acento principal */
+  --haz-azul-tenue: rgba(95, 212, 239, 0.18);
+  --resplandor-faro: #f0b94e; /* cálido, muy puntual — solo el faro */
+
+  /* Tipografía */
+  --fuente-titulo: 'Fraunces', Georgia, 'Times New Roman', serif;
+  --fuente-texto:  'Work Sans', -apple-system, 'Segoe UI', sans-serif;
+
+  /* Layout */
+  --ancho-contenido: 46rem;
+  --radio: 3px;
+}
+
+/* ---------- Reset mínimo ---------- */
+*, *::before, *::after { box-sizing: border-box; }
+
+html { color-scheme: dark; }
+
+body {
+  margin: 0;
+  background: var(--bg-noche);
+  color: var(--texto);
+  font-family: var(--fuente-texto);
+  font-size: 1.0625rem;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+img { max-width: 100%; display: block; }
+
+a {
+  color: var(--haz-azul);
+  text-decoration-color: var(--haz-azul-tenue);
+  text-underline-offset: 0.2em;
+}
+
+a:hover { text-decoration-color: currentColor; }
+
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--haz-azul);
+  outline-offset: 3px;
+}
+
+h1, h2, h3 {
+  font-family: var(--fuente-titulo);
+  font-weight: 600;
+  line-height: 1.15;
+  margin: 0 0 0.6em;
+  color: #fff;
+}
+
+p { margin: 0 0 1em; }
+
+/* ====================================================================
+   Header — el faro como momento destacado de la página.
+   Un resplandor radial fijo detrás del título simula el haz de luz;
+   es el único efecto "grande" de todo el sitio (regla: gastar
+   la audacia en un solo lugar).
+   ==================================================================== */
+
+header {
+  position: relative;
+  overflow: hidden;
+  padding: 3.5rem 1.5rem 3rem;
+  text-align: center;
+  background:
+    radial-gradient(ellipse 60% 55% at 50% -10%,
+      var(--haz-azul-tenue), transparent 70%),
+    linear-gradient(180deg, var(--bg-panel-alt), var(--bg-noche));
+  border-bottom: 1px solid var(--linea);
+}
+
+header #logo {
+  display: inline-flex;
+  margin-bottom: 1.25rem;
+}
+
+header #logo img {
+  height: 3.25rem;
+  width: auto;
+  border-radius: 50%;
+  box-shadow: 0 0 0 1px var(--linea), 0 0 24px 2px rgba(240, 185, 78, 0.25);
+}
+
+header h1 {
+  font-size: clamp(1.9rem, 4vw, 2.75rem);
+  letter-spacing: 0.01em;
+}
+
+header nav ul {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.75rem;
+  margin: 1.25rem 0 0;
+  padding: 0;
+}
+
+header nav a {
+  color: var(--texto-muted);
+  text-decoration: none;
+  font-size: 0.95rem;
+  padding-bottom: 0.3rem;
+  border-bottom: 1px solid transparent;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+
+header nav a:hover { color: var(--texto); }
+
+header nav a[aria-current="page"] {
+  color: var(--haz-azul);
+  border-bottom-color: var(--haz-azul);
+}
+
+header > p {
+  margin: 1.75rem 0 0;
+  font-family: var(--fuente-titulo);
+  font-style: italic;
+  font-size: 1.05rem;
+  color: var(--texto-muted);
+}
+
+/* ====================================================================
+   Contenido principal
+   ==================================================================== */
+
+main {
+  max-width: var(--ancho-contenido);
+  margin: 0 auto;
+  padding: 3.5rem 1.5rem;
+}
+
+main section + section,
+main section + aside {
+  margin-top: 3.5rem;
+  padding-top: 3.5rem;
+  border-top: 1px solid var(--linea);
+}
+
+section h2 {
+  font-size: clamp(1.4rem, 3vw, 1.75rem);
+}
+
+#presentacion p {
+  max-width: 62ch;
+  color: var(--texto);
+}
+
+#historia > h2 { margin-bottom: 2rem; }
+
+#historia article {
+  display: grid;
+  grid-template-columns: 9rem 1fr;
+  gap: 1.5rem;
+  align-items: start;
+}
+
+#historia article + article { margin-top: 2.25rem; }
+
+/* El tercer artículo (Costumbres) no tiene imagen: ocupa el ancho
+   completo en lugar de dejar una columna vacía. */
+#historia article:not(:has(img)) {
+  grid-template-columns: 1fr;
+}
+
+#historia article img {
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+  border-radius: var(--radio);
+  /* Duotono sutil para que las fotos de stock se sientan parte de
+     la misma noche azulada, en vez de fotos sueltas sin relación. */
+  filter: grayscale(35%) saturate(130%) sepia(10%) hue-rotate(160deg)
+          brightness(0.9);
+}
+
+#historia h3 {
+  font-size: 1.1rem;
+  margin-bottom: 0.4em;
+}
+
+#historia article p {
+  color: var(--texto-muted);
+  font-size: 0.98rem;
+}
+
+/* ====================================================================
+   Aside — "¿Sabías qué?" como una nota iluminada por el faro:
+   un borde en degradé que recuerda un haz de luz.
+   ==================================================================== */
+
+aside {
+  background: var(--bg-panel);
+  border-radius: var(--radio);
+  padding: 1.75rem 2rem;
+  border-left: 3px solid var(--resplandor-faro);
+  box-shadow: inset 0 0 40px -28px var(--resplandor-faro);
+}
+
+aside h2 {
+  font-size: 1.15rem;
+  color: var(--resplandor-faro);
+}
+
+aside p { color: var(--texto); }
+aside p:last-child { margin-bottom: 0; }
+
+/* ====================================================================
+   Footer
+   ==================================================================== */
+
+footer {
+  text-align: center;
+  padding: 2.25rem 1.5rem;
+  border-top: 1px solid var(--linea);
+  background: var(--bg-panel-alt);
+}
+
+footer small {
+  color: var(--texto-muted);
+  font-size: 0.85rem;
+  letter-spacing: 0.01em;
+}
+
+/* ====================================================================
+   Responsive
+   ==================================================================== */
+
+@media (max-width: 40rem) {
+  #historia article {
+    grid-template-columns: 1fr;
+  }
+
+  #historia article img {
+    aspect-ratio: 16 / 9;
+  }
+
+  header nav ul { gap: 1rem 1.5rem; }
+}
+
+/* ====================================================================
+   Movimiento reducido
+   ==================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; }
+}
